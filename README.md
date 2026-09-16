@@ -11,7 +11,7 @@ Built with pure vanilla web technologies (HTML5, CSS3, ES6+ JavaScript) with zer
 ### 🔗 Quick Launch
 - **Online Deployment**: Ready for zero-config hosting on GitHub Pages:
   ```text
-  https://bob0127.github.io/AIOT/
+  https://bob0127.github.io/AIoT/
   ```
 
 ### 🖥️ Interface Preview
