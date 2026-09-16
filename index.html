@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bob0127 • Personal Hub & Engineering Portfolio</title>
+  <meta name="description"
+    content="Personal dashboard of bob0127 featuring real-time clock, C/C++, AI, and Web Development skills and projects with an ocean aesthetic.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-theme="ocean">
+  <!-- Ocean Wallpaper Backdrop -->
+  <div class="ocean-backdrop"></div>
+  <canvas id="ocean-particles" class="particle-canvas"></canvas>
+
+  <!-- Dynamic Ambient Mesh Glows -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Page Wrapper -->
+  <div class="app-container">
+
+    <!-- Top Navigation / Toolbar -->
+    <header class="top-nav glass-panel">
+      <div class="nav-left">
+        <div class="status-pulse-wrapper">
+          <span class="pulse-dot"></span>
+          <span class="status-label" id="system-status">LIVE SYSTEM</span>
+        </div>
+
+        <!-- Section Navigation Links -->
+        <nav class="nav-links">
+          <a href="#clock-section" class="nav-link active">Clock</a>
+          <a href="#skills-section" class="nav-link">Skills</a>
+          <a href="#projects-section" class="nav-link">Projects</a>
+        </nav>
+      </div>
+
+      <div class="nav-controls">
+        <!-- 12h/24h toggle -->
+        <button id="format-toggle" class="btn-icon-pill" title="Toggle 12h / 24h format"
+          aria-label="Toggle 12/24 hour format">
+          <span class="pill-badge" id="format-badge">24H</span>
+        </button>
+
+        <!-- Theme Switcher -->
+        <div class="theme-dropdown-container">
+          <button id="theme-btn" class="btn-icon" title="Change Theme" aria-label="Change Color Theme">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </button>
+          <div class="theme-menu glass-panel" id="theme-menu">
+            <button class="theme-option active" data-set-theme="ocean">🌊 Deep Ocean</button>
+            <button class="theme-option" data-set-theme="dark">✨ Obsidian Dark</button>
+            <button class="theme-option" data-set-theme="aurora">🌌 Aurora Borealis</button>
+            <button class="theme-option" data-set-theme="cyberpunk">⚡ Neon Cyber</button>
+            <button class="theme-option" data-set-theme="light">☀️ Frosted Daylight</button>
+          </div>
+        </div>
+
+        <!-- Edit Profile Trigger -->
+        <button id="open-edit-btn" class="btn-primary-sm" title="Edit Profile Details">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+            <path d="m15 5 4 4"></path>
+          </svg>
+          <span>Edit Profile</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- SECTION 1: Personal Greeting & Live Time Deck -->
+      <section id="clock-section" class="hero-section glass-panel">
+
+        <!-- Profile & Name Showcase -->
+        <div class="profile-meta-row">
+          <div class="avatar-ring-container">
+            <div class="avatar-box" id="avatar-initials">BO</div>
+            <span class="avatar-status-pip" title="Active"></span>
+          </div>
+
+          <div class="profile-details">
+            <div class="greeting-tag">
+              <span id="greeting-icon">☀️</span>
+              <span id="greeting-text">Good day,</span>
+            </div>
+
+            <div class="name-display-container" id="name-container">
+              <h1 class="user-display-name" id="user-name" title="Click to edit name">bob0127</h1>
+              <button class="btn-inline-edit" id="quick-edit-name-btn" title="Quick edit your name"
+                aria-label="Edit name">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                </svg>
+              </button>
+            </div>
+
+            <p class="user-bio" id="user-bio">Creative Explorer & Problem Solver</p>
+
+            <!-- Focus Domains Badges -->
+            <div class="quick-focus-tags">
+              <span class="focus-chip">⚡ C/C++ Systems</span>
+              <span class="focus-chip">🧠 Artificial Intelligence</span>
+              <span class="focus-chip">🌐 Web Development</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Central Digital Clock Widget -->
+        <div class="clock-display-card">
+          <div class="clock-headline-row">
+            <div class="timezone-chip" id="user-timezone">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                </path>
+              </svg>
+              <span id="timezone-name">Local Time (UTC)</span>
+            </div>
+
+            <button class="btn-copy-time" id="copy-time-btn" title="Copy timestamp">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+              <span id="copy-text">Copy Time</span>
+            </button>
+          </div>
+
+          <!-- The Main Digits -->
+          <div class="digits-container">
+            <div class="time-digit-block">
+              <span class="time-digit" id="clock-hours">10</span>
+              <span class="digit-label">HOURS</span>
+            </div>
+            <span class="time-colon" id="colon-1">:</span>
+            <div class="time-digit-block">
+              <span class="time-digit" id="clock-minutes">15</span>
+              <span class="digit-label">MINUTES</span>
+            </div>
+            <span class="time-colon" id="colon-2">:</span>
+            <div class="time-digit-block">
+              <span class="time-digit" id="clock-seconds">30</span>
+              <span class="digit-label">SECONDS</span>
+            </div>
+            <div class="time-ampm-block" id="ampm-wrapper">
+              <span class="ampm-badge" id="clock-ampm">AM</span>
+            </div>
+          </div>
+
+          <!-- Date Display -->
+          <div class="date-strip">
+            <div class="full-date-text" id="full-date-string">
+              Wednesday, September 16, 2026
+            </div>
+            <div class="date-divider">•</div>
+            <div class="day-metrics" id="day-metrics">
+              Day <span id="metric-day-num">259</span> of 365
+            </div>
+          </div>
+
+          <!-- Day Elapsed Progress Bar -->
+          <div class="day-progress-wrap">
+            <div class="day-progress-header">
+              <span class="progress-title">Day Elapsed</span>
+              <span class="progress-percent" id="day-percent-text">42.7%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="day-progress-bar" style="width: 42.7%;"></div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- SECTION 2: Technical Skills Matrix -->
+      <section id="skills-section" class="section-block">
+        <div class="section-title-wrap">
+          <div class="section-pill">Core Competencies</div>
+          <h2 class="section-heading">Technical Skills</h2>
+          <p class="section-subheading">Specialized in high-performance systems programming, artificial intelligence, and responsive web platforms.</p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- Skill Card 1: C / C++ -->
+          <div class="skill-card glass-panel cpp-domain-card">
+            <div class="skill-card-top">
+              <div class="skill-icon-box cpp-icon">
+                <span>⚡</span>
+              </div>
+              <div class="skill-heading-group">
+                <h3>C / C++ Systems</h3>
+                <span class="skill-badge cpp-badge">High Performance</span>
+              </div>
+            </div>
+            <p class="skill-desc">
+              Low-latency architectures, systems programming, and hardware-near execution with modern C++ standards.
+            </p>
+            <div class="skill-tags">
+              <span class="tag-chip cpp-chip">Modern C++ (17/20)</span>
+              <span class="tag-chip cpp-chip">Concurrency & Threads</span>
+              <span class="tag-chip cpp-chip">Memory Management</span>
+              <span class="tag-chip cpp-chip">Lock-Free Data</span>
+              <span class="tag-chip cpp-chip">Embedded IoT</span>
+              <span class="tag-chip cpp-chip">Linux Systems</span>
+              <span class="tag-chip cpp-chip">Optimization</span>
+            </div>
+            <div class="skill-metric-row">
+              <span class="metric-label">Mastery Level</span>
+              <span class="metric-val cpp-metric-val">Advanced (95%)</span>
+            </div>
+            <div class="skill-meter-track">
+              <div class="skill-meter-fill cpp-meter-fill" style="width: 95%;"></div>
+            </div>
+          </div>
+
+          <!-- Skill Card 2: AI -->
+          <div class="skill-card glass-panel ai-domain-card">
+            <div class="skill-card-top">
+              <div class="skill-icon-box ai-icon">
+                <span>🧠</span>
+              </div>
+              <div class="skill-heading-group">
+                <h3>Artificial Intelligence</h3>
+                <span class="skill-badge ai-badge">Intelligence & ML</span>
+              </div>
+            </div>
+            <p class="skill-desc">
+              Machine learning, deep vision architectures, and autonomous agent workflows tailored for practical deployment.
+            </p>
+            <div class="skill-tags">
+              <span class="tag-chip ai-chip">Deep Learning</span>
+              <span class="tag-chip ai-chip">PyTorch</span>
+              <span class="tag-chip ai-chip">Computer Vision</span>
+              <span class="tag-chip ai-chip">OpenCV</span>
+              <span class="tag-chip ai-chip">Edge AI / TensorRT</span>
+              <span class="tag-chip ai-chip">LLMs & Agents</span>
+              <span class="tag-chip ai-chip">Neural Pipelines</span>
+            </div>
+            <div class="skill-metric-row">
+              <span class="metric-label">Mastery Level</span>
+              <span class="metric-val ai-metric-val">Advanced (92%)</span>
+            </div>
+            <div class="skill-meter-track">
+              <div class="skill-meter-fill ai-meter-fill" style="width: 92%;"></div>
+            </div>
+          </div>
+
+          <!-- Skill Card 3: Web Development -->
+          <div class="skill-card glass-panel web-domain-card">
+            <div class="skill-card-top">
+              <div class="skill-icon-box web-icon">
+                <span>🌐</span>
+              </div>
+              <div class="skill-heading-group">
+                <h3>Web Development</h3>
+                <span class="skill-badge web-badge">Full-Stack & UI</span>
+              </div>
+            </div>
+            <p class="skill-desc">
+              Building dynamic, glassmorphic web applications with responsive architecture and fluid browser APIs.
+            </p>
+            <div class="skill-tags">
+              <span class="tag-chip web-chip">HTML5 / CSS3</span>
+              <span class="tag-chip web-chip">Modern JavaScript</span>
+              <span class="tag-chip web-chip">Glassmorphic UX</span>
+              <span class="tag-chip web-chip">Web Audio API</span>
+              <span class="tag-chip web-chip">REST & WebSockets</span>
+              <span class="tag-chip web-chip">Interactive Dashboards</span>
+              <span class="tag-chip web-chip">Frontend Performance</span>
+            </div>
+            <div class="skill-metric-row">
+              <span class="metric-label">Mastery Level</span>
+              <span class="metric-val web-metric-val">Advanced (94%)</span>
+            </div>
+            <div class="skill-meter-track">
+              <div class="skill-meter-fill web-meter-fill" style="width: 94%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: Featured Projects Showcase -->
+      <section id="projects-section" class="section-block">
+        <div class="section-title-wrap">
+          <div class="section-pill">Portfolio & Works</div>
+          <h2 class="section-heading">Featured Projects</h2>
+          <p class="section-subheading">A showcase of projects across systems programming, artificial intelligence, and web technologies.</p>
+        </div>
+
+        <!-- Project Filter Bar & Action -->
+        <div class="projects-toolbar">
+          <div class="project-filter-pills" id="project-filter-bar">
+            <button class="filter-pill active" data-filter="all">All Projects</button>
+            <button class="filter-pill" data-filter="cpp">⚡ C / C++</button>
+            <button class="filter-pill" data-filter="ai">🧠 AI & Vision</button>
+            <button class="filter-pill" data-filter="web">🌐 Web Development</button>
+          </div>
+
+          <button id="open-add-project-btn" class="btn-primary-sm" title="Add a custom project">
+            <span>+ Add Project</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Projects Grid -->
+        <div class="projects-grid" id="projects-container">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- SECTION 4: Bento Grid Productivity Widgets -->
+      <section class="bento-grid">
+
+        <!-- Widget 1: World Time Hub -->
+        <div class="grid-card glass-panel world-clocks-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 14 14"></polyline>
+              </svg>
+              <h3>Global Zones</h3>
+            </div>
+            <span class="card-tag">Live Sync</span>
+          </div>
+
+          <div class="world-clock-list" id="world-clock-list">
+            <!-- Dynamically populated by app.js -->
+          </div>
+        </div>
+
+        <!-- Widget 2: Personal Focus Notes / Quick Scratchpad -->
+        <div class="grid-card glass-panel notes-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <h3>Quick Scratchpad</h3>
+            </div>
+            <span class="saved-indicator" id="notes-save-indicator">Auto-saved</span>
+          </div>
+
+          <textarea id="scratchpad-input" class="scratchpad-area"
+            placeholder="Jot down your thoughts, today's goals, or quick reminders here..."></textarea>
+        </div>
+
+        <!-- Widget 3: Quick Shortcuts & Links -->
+        <div class="grid-card glass-panel shortcuts-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="m18 13-6 6-6-6"></path>
+                <path d="M12 2v17"></path>
+              </svg>
+              <h3>Fast Access</h3>
+            </div>
+            <button class="btn-text-sm" id="add-link-btn" title="Add custom bookmark">+ Add Link</button>
+          </div>
+
+          <div class="shortcuts-grid" id="shortcuts-container">
+            <!-- Dynamic bookmarks -->
+          </div>
+        </div>
+
+        <!-- Widget 4: Ambient Atmosphere & Focus Sound -->
+        <div class="grid-card glass-panel ambient-audio-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13"></path>
+                <circle cx="6" cy="18" r="3"></circle>
+                <circle cx="18" cy="16" r="3"></circle>
+              </svg>
+              <h3>Ocean Ambience</h3>
+            </div>
+            <span class="audio-status-tag" id="audio-status-tag">Off</span>
+          </div>
+
+          <div class="audio-controls-wrap">
+            <button id="audio-toggle-btn" class="btn-audio-toggle">
+              <svg id="audio-play-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span id="audio-toggle-text">Play Ocean Sound</span>
+            </button>
+
+            <div class="volume-slider-box">
+              <span class="volume-label">Vol</span>
+              <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.3" aria-label="Volume">
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>bob0127 &bull; Personal Hub &bull; Ocean Aesthetic &bull; <span id="footer-live-tick">Synced • Live</span></p>
+    </footer>
+
+  </div>
+
+  <!-- Profile Edit Modal -->
+  <div class="modal-overlay" id="edit-modal" aria-hidden="true">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <h2>Customize Your Profile</h2>
+        <button class="btn-close-modal" id="close-modal-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <form id="profile-edit-form" class="modal-form">
+        <div class="form-group">
+          <label for="input-user-name">Your Full Name / Handle</label>
+          <input type="text" id="input-user-name" required placeholder="e.g. bob0127" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="input-user-bio">Headline / Subtitle</label>
+          <input type="text" id="input-user-bio" placeholder="e.g. Creative Explorer & Problem Solver">
+        </div>
+
+        <div class="form-group">
+          <label for="input-user-location">Your Location / City</label>
+          <input type="text" id="input-user-location" placeholder="e.g. Earth / Remote">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancel-edit-btn">Cancel</button>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Shortcut Modal -->
+  <div class="modal-overlay" id="link-modal" aria-hidden="true">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <h2>Add Quick Bookmark</h2>
+        <button class="btn-close-modal" id="close-link-modal-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <form id="link-add-form" class="modal-form">
+        <div class="form-group">
+          <label for="input-link-title">Title</label>
+          <input type="text" id="input-link-title" required placeholder="e.g. GitHub">
+        </div>
+
+        <div class="form-group">
+          <label for="input-link-url">URL</label>
+          <input type="url" id="input-link-url" required placeholder="https://github.com">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancel-link-btn">Cancel</button>
+          <button type="submit" class="btn-primary">Add Shortcut</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Project Modal -->
+  <div class="modal-overlay" id="project-modal" aria-hidden="true">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <h2>Add Custom Project</h2>
+        <button class="btn-close-modal" id="close-project-modal-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <form id="project-add-form" class="modal-form">
+        <div class="form-group">
+          <label for="input-proj-title">Project Title</label>
+          <input type="text" id="input-proj-title" required placeholder="e.g. Autonomous Edge Ingestion Engine">
+        </div>
+
+        <div class="form-group">
+          <label for="input-proj-category">Domain Category</label>
+          <select id="input-proj-category" class="custom-select">
+            <option value="cpp">⚡ C / C++</option>
+            <option value="ai">🧠 Artificial Intelligence</option>
+            <option value="web">🌐 Web Development</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="input-proj-desc">Brief Description</label>
+          <textarea id="input-proj-desc" required rows="3" class="modal-textarea" placeholder="Describe the goal, architecture, and achievements..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="input-proj-tags">Tech Tags (comma separated)</label>
+          <input type="text" id="input-proj-tags" placeholder="e.g. C++20, PyTorch, Edge AI, WebSockets">
+        </div>
+
+        <div class="form-group">
+          <label for="input-proj-link">Project Link / GitHub URL (Optional)</label>
+          <input type="url" id="input-proj-link" placeholder="https://github.com/bob0127/my-project">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancel-project-btn">Cancel</button>
+          <button type="submit" class="btn-primary">Add Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
